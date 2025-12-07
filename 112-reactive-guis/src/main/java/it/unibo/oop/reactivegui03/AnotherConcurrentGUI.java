@@ -29,7 +29,11 @@ public final class AnotherConcurrentGUI extends JFrame {
 
     private final Agent agent = new Agent(display, LOGGER);
     private final int threadPoolSize = Runtime.getRuntime().availableProcessors();
-    private final ExecutorService exec = Executors.newFixedThreadPool(threadPoolSize);		
+    private final ExecutorService exec = Executors.newFixedThreadPool(threadPoolSize);
+    
+    private final JButton up = new JButton("up");
+    private final JButton down = new JButton("down");
+    private final JButton stop = new JButton("stop");
 
 
     /**
@@ -40,9 +44,6 @@ public final class AnotherConcurrentGUI extends JFrame {
         JFrameUtil.dimensionJFrame(this);
         final JPanel panel = new JPanel();
         panel.add(display);
-        final JButton up = new JButton("up");
-        final JButton down = new JButton("down");
-        final JButton stop = new JButton("stop");
         panel.add(up);
         panel.add(down);
         panel.add(stop);
@@ -60,10 +61,16 @@ public final class AnotherConcurrentGUI extends JFrame {
         up.addActionListener(e -> agent.setUpDirection());
         down.addActionListener(e -> agent.setDownDirection());
         stop.addActionListener(e -> {agent.stopCounting();
-                                    stop.setEnabled(false);
-                                    up.setEnabled(false);
-                                    down.setEnabled(false);
+                                    disableButtons();
                                     });
+
+        
+    }
+
+    private void disableButtons(){
+        stop.setEnabled(false);
+        up.setEnabled(false);
+        down.setEnabled(false);
     }
 
 }
