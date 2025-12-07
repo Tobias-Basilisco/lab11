@@ -60,8 +60,8 @@ public final class LambdaFilter extends JFrame {
                                                     Collectors.counting())
                                                 )
                                                 .entrySet().stream()
-                                                .map (String::valueOf)
-                                                .collect(Collectors.joining(",", "[", "]"))
+                                                .map(e -> e.getKey() + " -> " + e.getValue())
+                                                .collect(Collectors.joining("\n"))
         );
 
 
