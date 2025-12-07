@@ -37,7 +37,11 @@ public final class ConcurrentGUI extends JFrame {
         JFrameUtil.dimensionJFrame(this);
         final JPanel panel = new JPanel();
         panel.add(display);
+        final JButton up = new JButton("up");
+        final JButton down = new JButton("down");
         final JButton stop = new JButton("stop");
+        panel.add(up);
+        panel.add(down);
         panel.add(stop);
         this.getContentPane().add(panel);
         this.setVisible(true);
@@ -50,6 +54,8 @@ public final class ConcurrentGUI extends JFrame {
         /*
          * Register a listener that stops it
          */
+        up.addActionListener(e -> agent.setUpDirection());
+        down.addActionListener(e -> agent.setDownDirection());
         stop.addActionListener(e -> agent.stopCounting());
     }
 

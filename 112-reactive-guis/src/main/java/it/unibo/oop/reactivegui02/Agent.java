@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 public class Agent implements Runnable {
 
     private volatile boolean stop = false;
+    private volatile boolean downDirection = false;
     private final JLabel display;
     private int counter = 0;
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentGUI.class);
@@ -26,7 +27,11 @@ public class Agent implements Runnable {
                 // The EDT doesn't access `counter` anymore, it doesn't need to be volatile
                 final var nextText = Integer.toString(this.counter);
                 SwingUtilities.invokeAndWait(() -> display.setText(nextText));
-                this.counter++;
+                if (this.downDirection == true) {
+                    this.counter--;
+                } else {
+                    this.counter++;
+                }
                 Thread.sleep(100);
             } catch (InvocationTargetException | InterruptedException ex) {
                 LOGGER.error(ex.getMessage(), ex);
@@ -39,5 +44,14 @@ public class Agent implements Runnable {
      */
     public void stopCounting() {
         stop = true;
+    }
+
+    public void setUpDirection(){
+        this.downDirection = false;
+    }
+
+    
+    public void setDownDirection(){
+        this.downDirection = true;
     }
 }
