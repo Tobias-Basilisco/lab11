@@ -41,7 +41,8 @@ public final class LambdaFilter extends JFrame {
         /**
          * Commands.
          */
-        IDENTITY("No modifications", Function.identity());
+        IDENTITY("No modifications", Function.identity()),
+        TO_LOWER("Convert to lowercase", s -> s.toLowerCase());
 
         private final String commandName;
         private final Function<String, String> fun;
