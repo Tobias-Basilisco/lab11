@@ -52,6 +52,16 @@ public final class LambdaFilter extends JFrame {
                                                             .flatMap( (String l) -> (Stream<String>) Arrays.stream(l.split(" ")))
                                                             .sorted()
                                                             .collect(Collectors.joining(" "))
+        ),
+        MAP_WORD_COUNT("Map word count", s-> s.lines()
+                                                .flatMap( (String l) -> (Stream<String>) Arrays.stream(l.split(" ")))
+                                                .collect(Collectors.groupingBy(
+                                                    w -> w,
+                                                    Collectors.counting())
+                                                )
+                                                .entrySet().stream()
+                                                .map (String::valueOf)
+                                                .collect(Collectors.joining(",", "[", "]"))
         );
 
 
