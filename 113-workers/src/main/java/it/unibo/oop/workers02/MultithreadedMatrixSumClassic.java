@@ -1,5 +1,8 @@
 package it.unibo.oop.workers02;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MultithreadedMatrixSumClassic implements SumMatrix{
     
     private final int nthread;
@@ -17,9 +20,35 @@ public class MultithreadedMatrixSumClassic implements SumMatrix{
     @Override
     public double sum(double[][] matrix){
 
-        
+        if (matrix.length == 0) {
+            return 0;
+        }
 
-        return 0;
+        final int rows = matrix.length;
+
+        final int size = rows / this.nthread + rows % this.nthread;
+
+        final List<Worker> workers = new ArrayList<>(this.nthread);
+        for (int start = 0; start < rows; start += size) {
+            final int cols = matrix[start].length;
+            workers.add(new Worker(matrix, start, 0, size, cols));
+        }
+
+        for (final Worker w : workers) {
+            w.start();
+        }
+
+        double result = 0;
+        for (final Worker w : workers) {
+            try {
+                w.join();
+                result += w.getResult();
+            } catch (InterruptedException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+
+        return result;
     }
 
     private static final class Worker extends Thread {
