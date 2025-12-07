@@ -51,7 +51,7 @@ public final class LambdaFilter extends JFrame {
         LIST_ORDERED_WORDS("List words in order", s -> s.lines()
                                                             .flatMap( (String l) -> (Stream<String>) Arrays.stream(l.split(" ")))
                                                             .sorted()
-                                                            .collect(Collectors.joining())
+                                                            .collect(Collectors.joining(" "))
         );
 
 
