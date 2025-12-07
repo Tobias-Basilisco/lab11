@@ -16,23 +16,36 @@ public class MultithreadedMatrixSumClassic implements SumMatrix{
 
     @Override
     public double sum(double[][] matrix){
+
+        
+
         return 0;
     }
 
     private static final class Worker extends Thread {
 
-        private final double[] row;
+        private final double[][] matrix;
+        private final int rowStart;
+        private final int colStart;
+        private final int rowStep;
+        private final int colStep;
         private double res;
 
-        Worker(final double[] row) {
-            this.row = row;
+        Worker(final double[][] matrix, final int rowStart, final int colStart, final int rowStep, final int colStep) {
+            this.matrix = matrix;
+            this.rowStart = rowStart;
+            this.colStart = colStart;
+            this.rowStep = rowStep;
+            this.colStep = colStep;
         }
 
         @Override
-        public void run() {
+        public synchronized void run() {
             double sum = 0;
-            for (int j = 0; j < this.row.length; j++) {
-                sum += this.row[j];
+            for (int i = rowStart; i < rowStart + rowStep && i < matrix.length; i++){
+                for (int j = colStart; j < colStart + colStep && j < matrix[i].length; j++) {
+                    sum += matrix[i][j];
+                }
             }
             this.res = sum;
         }
