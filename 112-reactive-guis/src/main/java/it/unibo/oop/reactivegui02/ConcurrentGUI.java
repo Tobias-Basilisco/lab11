@@ -24,7 +24,7 @@ public final class ConcurrentGUI extends JFrame {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentGUI.class);
     private final JLabel display = new JLabel();
 
-    private final Agent agent = new Agent(display);
+    private final Agent agent = new Agent(display, LOGGER);
     private final int threadPoolSize = Runtime.getRuntime().availableProcessors();
     private final ExecutorService exec = Executors.newFixedThreadPool(threadPoolSize);		
 

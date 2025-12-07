@@ -14,10 +14,11 @@ public class Agent implements Runnable {
     private volatile boolean downDirection = false;
     private final JLabel display;
     private int counter = 0;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentGUI.class);
+    private Logger logger;
 
-    public Agent(JLabel display) {
+    public Agent(JLabel display, Logger logger) {
         this.display = display;
+        this.logger = logger;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class Agent implements Runnable {
                 }
                 Thread.sleep(100);
             } catch (InvocationTargetException | InterruptedException ex) {
-                LOGGER.error(ex.getMessage(), ex);
+                logger.error(ex.getMessage(), ex);
             }
         }
     }
