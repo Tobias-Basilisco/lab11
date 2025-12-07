@@ -1,8 +1,10 @@
 package it.unibo.oop.reactivegui03;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import it.unibo.oop.reactivegui02.Agent;
 import org.slf4j.Logger;
@@ -32,8 +34,14 @@ public class TimeoutStopperAgent implements Runnable{
     }
 
     public void disableButtons(){
-        for (JButton jButton : buttons) {
-            jButton.setEnabled(false);
+        try {
+            SwingUtilities.invokeAndWait(() -> {
+                for (JButton jButton : buttons) {
+                    jButton.setEnabled(false);
+                }
+            });
+        } catch (InvocationTargetException | InterruptedException ex) {
+            logger.error(ex.getMessage(), ex);
         }
     }
 }
