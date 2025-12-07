@@ -25,16 +25,18 @@ public final class AnotherConcurrentGUI extends JFrame {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private final JButton up = new JButton("up");
+    private final JButton down = new JButton("down");
+    private final JButton stop = new JButton("stop");
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AnotherConcurrentGUI.class);
     private final JLabel display = new JLabel();
 
     private final Agent agent = new Agent(display, LOGGER);
+    private final TimeoutStopperAgent stopperAgent = new TimeoutStopperAgent(agent, LOGGER, getButtons());
     private final int threadPoolSize = Runtime.getRuntime().availableProcessors();
     private final ExecutorService exec = Executors.newFixedThreadPool(threadPoolSize);
     
-    private final JButton up = new JButton("up");
-    private final JButton down = new JButton("down");
-    private final JButton stop = new JButton("stop");
 
 
     /**
@@ -56,26 +58,21 @@ public final class AnotherConcurrentGUI extends JFrame {
          * java.util.concurrent.ExecutorService
          */
         exec.execute(agent);
+        exec.execute(stopperAgent);
         /*
          * Register a listener that stops it
          */
         up.addActionListener(e -> agent.setUpDirection());
         down.addActionListener(e -> agent.setDownDirection());
         stop.addActionListener(e -> {agent.stopCounting();
-                                    disableButtons();
+                                    stopperAgent.disableButtons();
                                     });
-
-        
     }
 
-    List<JButton> getButtons(){
+    private List<JButton> getButtons(){
         return List.of(up,down,stop);
     }
 
-    private void disableButtons(){
-        stop.setEnabled(false);
-        up.setEnabled(false);
-        down.setEnabled(false);
-    }
+    
 
 }

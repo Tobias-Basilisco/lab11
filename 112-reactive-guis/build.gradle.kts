@@ -23,5 +23,5 @@ dependencies {
 
 
 application {
-    mainClass.set("it.unibo.oop.reactivegui02.Test")
+    mainClass.set("it.unibo.oop.reactivegui03.Test")
 }
