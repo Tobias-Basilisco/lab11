@@ -43,7 +43,8 @@ public final class LambdaFilter extends JFrame {
          */
         IDENTITY("No modifications", Function.identity()),
         TO_LOWER("Convert to lowercase", String::toLowerCase),
-        COUNT_CHARS("Count the number of chars", s -> Integer.toString(s.length()));
+        COUNT_CHARS("Count the number of chars", s -> Integer.toString(s.length())),
+        COUNT_LINES("Count the number of lines", s -> Integer.toString((int) s.lines().count()));
 
 
         private final String commandName;
